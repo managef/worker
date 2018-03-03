@@ -1,0 +1,10 @@
+package: github.com/managef/worker
+import:
+- package: github.com/grpc/grpc-go
+  version: 8e4536a86ab602859c20df5ebfd0bd4228d08655
+- package: github.com/golang/protobuf
+  version: 925541529c1fa6821df4e44ce2723319eb2be768
+- package: google.golang.org/grpc
+  version: 8e4536a86ab602859c20df5ebfd0bd4228d08655
+- package: github.com/golang/glog
+  version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998

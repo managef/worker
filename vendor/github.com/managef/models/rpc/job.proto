@@ -1,0 +1,19 @@
+// Stream de job
+syntax = "proto3";
+service Job{
+    rpc GetJob(JobRequest) returns (JobResponse) {}
+}
+
+// Mensaje vacío ya qu eno esperamos ningún parametro de entrada
+message Empty {}
+
+// Tipo requests para la respuesta
+message JobRequest{
+    string id = 1;
+    string name = 2;
+    int32 number = 3;
+}
+
+message JobResponse{
+    string id = 1;
+}

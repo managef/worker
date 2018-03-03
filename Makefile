@@ -45,6 +45,21 @@ install:
 	${GO_BUILD_ENVVARS} go install \
 		-ldflags "-X main.version=${VERSION} -X main.commitHash=${COMMIT_HASH}"
 
+#
+# dep targets - dependency management
+#
+
+dep-install:
+	@echo Installing Glide itself
+	@mkdir -p ${GOPATH}/bin
+	# We want to pin on a specific version
+	# @curl https://glide.sh/get | sh
+	@curl https://glide.sh/get | awk '{gsub("get TAG https://glide.sh/version", "TAG=v0.13.1", $$0); print}' | sh
+
+dep-update:
+	@echo Updating dependencies and storing in vendor directory
+	@glide update --strip-vendor
+
 .prepare-docker-image-files:
 	@echo Preparing docker image files...
 	@mkdir -p ${GOPATH}/_output/docker/${BUILD_NAME}
