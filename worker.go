@@ -1,16 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"html"
 	"log"
-	"net/http"
+	"net"
+	"google.golang.org/grpc"
+	pb "github.com/managef/models/rpc"
+	job "github.com/managef/models/job"
+	"google.golang.org/grpc/reflection"
+	"github.com/golang/glog"
+)
+
+const (
+	port = ":50051"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello Worker, %q", html.EscapeString(r.URL.Path))
-	})
+	defer glog.Flush()
+	lis, err := net.Listen("tcp", port)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	s := grpc.NewServer()
+	jobServer := job.Server{}
+	pb.RegisterJobServer(s,&jobServer)
+	// Register reflection service on gRPC server.
+	reflection.Register(s)
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
