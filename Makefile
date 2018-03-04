@@ -74,3 +74,19 @@ docker: .prepare-docker-image-files
 docker-push:
 	@echo Pushing current docker image to ${DOCKER_TAG}
 	docker push ${DOCKER_TAG}
+
+.prepare-minikube:
+	@minikube addons list | grep -q "ingress: enabled" ; \
+	if [ "$$?" != "0" ]; then \
+		echo "Enabling ingress support to minikube" ; \
+		minikube addons enable ingress ; \
+	fi
+	@grep -q sws /etc/hosts ; \
+	if [ "$$?" != "0" ]; then \
+		echo "/etc/hosts should have SWS so you can access the ingress"; \
+	fi
+
+minikube-docker: .prepare-minikube .prepare-docker-image-files
+	@echo Building docker image into minikube docker daemon...
+	@eval $$(minikube docker-env) ; \
+    docker build -t ${DOCKER_TAG} ${GOPATH}/_output/docker/${BUILD_NAME}
