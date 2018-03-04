@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"github.com/managef/models/log"
 	"net"
 	"google.golang.org/grpc"
 	pb "github.com/managef/models/rpc"
@@ -19,7 +19,7 @@ func main() {
 	lis, err := net.Listen("tcp", port)
 
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Errorf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
 	jobServer := job.Server{}
@@ -27,6 +27,6 @@ func main() {
 	// Register reflection service on gRPC server.
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		log.Errorf("failed to serve: %v", err)
 	}
 }

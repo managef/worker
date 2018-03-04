@@ -1,5 +1,5 @@
 hash: 1229028541e9dae2d842f3ac6f0eeadfdb0de8a48edcaeb24def0f6dd577ea36
-updated: 2018-03-04T13:22:40.981565109+01:00
+updated: 2018-03-04T14:12:39.52027281+01:00
 imports:
 - name: github.com/golang/glog
   version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
@@ -15,7 +15,7 @@ imports:
 - name: github.com/grpc/grpc-go
   version: 8e4536a86ab602859c20df5ebfd0bd4228d08655
 - name: github.com/managef/models
-  version: 0cf088d30de5ef8c15ebc9a44235e69188ff122d
+  version: ec097548b0410e24df13f4778f280a4a4d644a9f
   subpackages:
   - job
   - log
