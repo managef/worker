@@ -14,7 +14,7 @@ DOCKER_VERSION ?= dev
 DOCKER_TAG = ${DOCKER_NAME}:${DOCKER_VERSION}
 
 # The minimum Go version that must be used to build the app.
-GO_VERSION_MANAGEF = 1.8.3
+GO_VERSION_MANAGEF = 1.9.4
 
 NAMESPACE = manage-f
 # Environment variables set when running the Go compiler.
