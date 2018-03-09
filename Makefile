@@ -23,6 +23,9 @@ GO_BUILD_ENVVARS = \
 	GOARCH=amd64 \
     CGO_ENABLED=0 \
 
+GO=go
+GOCMD=GOPATH=$(GOPATH) $(GO)
+
 all: build
 
 clean:
@@ -48,6 +51,27 @@ install:
 test:
 	@echo Running tests, excluding third party tests under vendor
 	go test $(shell go list ./... | grep -v -e /vendor/)
+
+.PHONY: coverage
+coverage:
+	@echo Running coverage
+	rm -fr coverage1
+	mkdir -p coverage
+	$(GOCMD) list ./... > coverage/packages
+	@i=a ; \
+	while read -r P; do \
+        i=a$$i ; \
+        $(GOCMD) test $$P -cover -coverpkg $$P -covermode=count -coverprofile=coverage/$$i.out; \
+	done <coverage/packages
+	echo "mode: count" > coverage/coverage
+	cat coverage/*.out | grep -v "mode: count" >> coverage/coverage
+	$(GOCMD) tool cover -html=coverage/coverage
+
+.PHONY: CI-Coverage
+CI-Coverage: coverage
+	@echo Running CI coverage
+	go get -v github.com/mattn/goveralls
+	goveralls -coverprofile=coverage/coverage -service=travis-ci -covermode=count
 #
 # dep targets - dependency management
 #
