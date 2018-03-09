@@ -45,6 +45,9 @@ install:
 	${GO_BUILD_ENVVARS} go install \
 		-ldflags "-X main.version=${VERSION} -X main.commitHash=${COMMIT_HASH}"
 
+test:
+	@echo Running tests, excluding third party tests under vendor
+	go test $(shell go list ./... | grep -v -e /vendor/)
 #
 # dep targets - dependency management
 #
