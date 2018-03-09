@@ -55,7 +55,7 @@ test:
 .PHONY: coverage
 coverage:
 	@echo Running coverage
-	rm -fr coverage1
+	rm -fr coverage
 	mkdir -p coverage
 	$(GOCMD) list ./... > coverage/packages
 	@i=a ; \
